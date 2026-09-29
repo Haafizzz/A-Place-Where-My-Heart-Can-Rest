@@ -291,6 +291,27 @@ h1 {
   color: var(--muted);
 }
 
+.comment-delete {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 28px; height: 28px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s, color .2s, border-color .2s, background .2s;
+}
+.comment-card:hover .comment-delete { opacity: 1; }
+.comment-delete:hover {
+  color: #e74c3c;
+  border-color: #e74c3c33;
+  background: #e74c3c0d;
+}
+.comment-delete:active { transform: scale(0.92); }
+
 .comment-text {
   margin: 0;
   font-family: var(--serif);

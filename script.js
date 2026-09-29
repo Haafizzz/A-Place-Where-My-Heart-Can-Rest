@@ -92,6 +92,20 @@
   const commentsLoading = $("commentsLoading");
   const commentsCount = $("commentsCount");
 
+  /* Track which comments belong to this visitor */
+  function getMyCommentIds() {
+    try { return JSON.parse(localStorage.getItem("myCommentIds") || "[]"); } catch(e) { return []; }
+  }
+  function saveMyCommentId(id) {
+    const ids = getMyCommentIds();
+    ids.push(id);
+    safeSet("myCommentIds", JSON.stringify(ids));
+  }
+  function removeMyCommentId(id) {
+    const ids = getMyCommentIds().filter(function(x) { return x !== id; });
+    safeSet("myCommentIds", JSON.stringify(ids));
+  }
+
   function escapeHtml(text) {
     const d = document.createElement("div");
     d.textContent = text;
@@ -128,17 +142,64 @@
   function renderComment(c, prepend) {
     const div = document.createElement("div");
     div.className = "comment-card" + (prepend ? " comment-new" : "");
+    div.setAttribute("data-id", c.id);
+    const isMine = getMyCommentIds().indexOf(c.id) !== -1;
+    const deleteBtn = isMine
+      ? '<button class="comment-delete" title="Delete comment" aria-label="Delete comment">' +
+          '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">' +
+            '<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"/>' +
+            '<line x1="10" y1="11" x2="10" y2="17"/>' +
+            '<line x1="14" y1="11" x2="14" y2="17"/>' +
+          '</svg>' +
+        '</button>'
+      : '';
     div.innerHTML =
       '<div class="comment-avatar" style="background:' + avatarColor(c.name) + '">' + getInitials(c.name) + '</div>' +
       '<div class="comment-body">' +
         '<div class="comment-header">' +
           '<span class="comment-author">' + escapeHtml(c.name) + '</span>' +
           '<span class="comment-time">' + timeAgo(c.created_at) + '</span>' +
+          deleteBtn +
         '</div>' +
         '<p class="comment-text">' + escapeHtml(c.content) + '</p>' +
       '</div>';
+
+    if (isMine) {
+      div.querySelector(".comment-delete").addEventListener("click", function() {
+        deleteComment(c.id, div);
+      });
+    }
+
     if (prepend) commentsList.prepend(div);
     else commentsList.appendChild(div);
+  }
+
+  async function deleteComment(id, cardEl) {
+    if (!confirm("Delete this comment?")) return;
+    cardEl.style.opacity = "0.5";
+    cardEl.style.pointerEvents = "none";
+    try {
+      const { error } = await sb.from("comments").delete().eq("id", id);
+      if (error) throw error;
+      cardEl.style.transition = "opacity .3s, max-height .3s, padding .3s, margin .3s";
+      cardEl.style.opacity = "0";
+      cardEl.style.maxHeight = "0";
+      cardEl.style.padding = "0";
+      cardEl.style.overflow = "hidden";
+      setTimeout(function() { cardEl.remove(); }, 300);
+      removeMyCommentId(id);
+      const n = parseInt((commentsCount.textContent || "0").replace(/\D/g, ""), 10);
+      commentsCount.textContent = "(" + Math.max(0, n - 1) + ")";
+      if (n - 1 <= 0) {
+        commentsList.innerHTML = '<p class="comments-empty">No comments yet. Be the first to share your thoughts!</p>';
+      }
+      showToast("Comment deleted");
+    } catch (err) {
+      cardEl.style.opacity = "1";
+      cardEl.style.pointerEvents = "auto";
+      showToast("Failed to delete comment");
+      console.error("Delete comment error:", err);
+    }
   }
 
   async function loadComments() {
@@ -184,6 +245,7 @@
       const empty = commentsList.querySelector(".comments-empty");
       if (empty) empty.remove();
 
+      saveMyCommentId(data[0].id);
       renderComment(data[0], true);
 
       const n = parseInt((commentsCount.textContent || "0").replace(/\D/g, ""), 10);
