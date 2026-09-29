@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Place Where My Heart Can Rest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header class="topbar">
+    <a class="logo" href="#">Stories</a>
+    <nav class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+      </button>
+      <img class="avatar" src="usagi.jpg" alt="Profile" />
+    </nav>
+  </header>
+
+  <main>
+    <article class="article">
+      <h1>A Place Where My Heart Can Rest</h1>
+      <p class="subtitle">On choosing someone, even when the story isn’t perfect.</p>
+
+      <div class="byline">
+        <img class="avatar avatar-lg" src="usagi.jpg" alt="Profile" />
+        <div>
+          <p class="author">Unknown User</p>
+          <p class="meta"><span id="readTime">4 min read</span> · <time datetime="2026-09-28">Sep 28, 2026</time></p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="clap" id="clapBtn" aria-label="Clap for this story">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path
+              d="M12 21s-7-4.6-9.3-9.2C1.2 8.6 3 5 6.4 5c2 0 3.6 1.1 4.4 2.6h.4C12 6.1 13.600 5 15.600 5 19 5 20.800 8.600 19.300 11.800 17 16.400 12 21 12 21z" />
+          </svg>
+          <span id="clapCount">0</span>
+        </button>
+        <button class="icon-btn" id="shareBtn" aria-label="Copy link">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path
+              d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1" />
+          </svg>
+        </button>
+        <span class="toast" id="toast" role="status"></span>
+      </div>
+
+      <div class="body" id="articleBody">
+        <p>Everyone keeps asking me about how much I love her. Maybe we remain in silence, but did you know we started
+          it all with happiness? Guess what, we love each other. It’s very simple, yet somehow it means everything to
+          me.</p>
+        <p>She became a place where my heart could finally rest. A place where I don’t have to pretend to be someone
+          else, where silence doesn’t feel empty, and where even the smallest moments can feel special. Being with her
+          feels like coming home after a long, tiring journey.</p>
+        <p>I don’t know what the future will bring us. Maybe there will be days when we barely speak, days when we
+          misunderstand each other, or days when everything feels difficult. But one thing I know for sure is that my
+          feelings for her were never about having a perfect story. They were about choosing her, even when things were
+          not perfect.</p>
+        <p>I love the way she makes ordinary moments feel meaningful. I love the way her presence can calm my mind
+          without even trying. And sometimes, I don’t need her to say anything. Just knowing that she is there is
+          already enough to make me feel at peace.</p>
+        <p>Maybe I will never find the perfect words to explain how much she means to me. But if love is about finding a
+          place where your heart feels safe, then she will always be that place for me.
+          and I know it wasnt same anymore.
+        </p>
+        <p>But The Writer wants you to know that I always love you.</p>
+      </div>
+
+      <ul class="tags">
+        <li>Love</li>
+        <li>Relationships</li>
+        <li>Writing</li>
+        <li>Life</li>
+      </ul>
+
+      <div class="actions actions-bottom">
+        <button class="clap" id="clapBtn2" aria-label="Clap for this story">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path
+              d="M12 21s-7-4.6-9.3-9.2C1.2 8.6 3 5 6.4 5c2 0 3.6 1.1 4.4 2.6h.4C12 6.1 13.600 5 15.600 5 19 5 20.800 8.600 19.300 11.800 17 16.400 12 21 12 21z" />
+          </svg>
+          <span id="clapCount2">0</span>
+        </button>
+      </div>
+    </article>
+
+    <section class="comments-section">
+      <h2 class="comments-title">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Comments <span class="comments-count" id="commentsCount"></span>
+      </h2>
+
+      <form class="comment-form" id="commentForm">
+        <input type="text" id="commentName" class="comment-input" placeholder="Your name" required maxlength="50" autocomplete="name" />
+        <textarea id="commentContent" class="comment-input comment-textarea" placeholder="Share your thoughts..." required maxlength="1000" rows="3"></textarea>
+        <button type="submit" class="comment-submit" id="commentSubmit">Post Comment</button>
+      </form>
+
+      <div class="comments-list" id="commentsList">
+        <div class="comments-loading" id="commentsLoading">
+          <div class="spinner"></div>
+          <span>Loading comments...</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
